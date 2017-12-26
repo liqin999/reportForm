@@ -1,3 +1,6 @@
+//引入样式文件
+import 'antd/dist/antd.css'
+
 require("./common/style/base.css");
 require("./common/style/index.css");
 
@@ -8,6 +11,8 @@ import {
   Route,
   Link
 } from 'react-router-dom';
+
+import { Button ,Icon} from 'antd';
 
 class App extends React.Component{
 
@@ -174,6 +179,8 @@ handleKeyDownPost(ev){// 在文本框按下enter键的时候执行 s定义数据
            <div>
            	<header className='header'>
            		<h1>todos</h1>
+				<Button type="primary">Primary</Button>
+				<Icon type="wifi" style={{ fontSize: 16, color: '#08c' }} />
            		<input type="text" 
            		value={inputVal} 
            		onChange={changeInputVal}
