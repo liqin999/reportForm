@@ -49,7 +49,6 @@ constructor(props) {
              this.setState({
                     database: ret.data.database
              });
-           
         });
   }
 
@@ -57,32 +56,33 @@ constructor(props) {
  	let SubMenuCon = null;
  	let MenuItemCon = null;
  	let {database} = this.state;
- 	console.log(database)
- 	let temp = (
+ 	console.log(database);
+
+ 	/*let temp = (
  			 <React.Fragment>
  			   <Menu.Item key="66">option66</Menu.Item>
 	           <Menu.Item key="77">option77</Menu.Item>
 	           <Menu.Item key="88">option88</Menu.Item>
  			</React.Fragment> 
- 		);
- 	SubMenuCon = database.map((item,index)=>{
+ 		);*/
+ 	SubMenuCon = database.map((item,index)=>{//两层嵌套的map循环
+		MenuItemCon = item.options.map((_item,_index)=>{
+			return (
+				<Menu.Item key={_item.id}>{_item.tabname}</Menu.Item>
+			)
+ 		});
  		return (//组件之间数据的传递
- 			<SubMenu key={index} parentId={item.id} title={<span><Icon type="user" />{item.database}</span>}>
-				  
-		     	<Menu.Item key="66">option66</Menu.Item>			
-
+ 			<SubMenu key={index} key={item.id} data-parentId={item.id} title={<span><Icon type="user" />{item.database}</span>}>
+			    {MenuItemCon} 
             </SubMenu>
  			)
  	});
-
-
 
  return (
   <Layout>
     <Content style={{ padding: '0 50px' }}>
       <Breadcrumb style={{ margin: '16px 0' }}>
         <Breadcrumb.Item>数据报表展示</Breadcrumb.Item>
-      
       </Breadcrumb>
       <Layout style={{ padding: '24px 0', background: '#fff' }}>
         <Sider width={200} style={{ background: '#fff' }}>
@@ -93,7 +93,6 @@ constructor(props) {
             style={{ height: '100%' }}
           >
 		    {SubMenuCon}
-
 
           </Menu>
         </Sider>
