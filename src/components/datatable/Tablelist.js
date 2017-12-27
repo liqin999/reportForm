@@ -7,7 +7,7 @@ const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 const data = [{
   key: '1',
   name: 'John Brown',
-  age: 32,
+  age: 38,
   address: 'New York No. 1 Lake Park',
 }, {
   key: '2',
@@ -21,6 +21,21 @@ const data = [{
   address: 'Sidney No. 1 Lake Park',
 }, {
   key: '4',
+  name: 'Jim Red',
+  age: 32,
+  address: 'London No. 2 Lake Park',
+}, {
+  key: '5',
+  name: 'Jim Green',
+  age: 42,
+  address: 'London No. 1 Lake Park',
+}, {
+  key: '6',
+  name: 'Joe Black',
+  age: 32,
+  address: 'Sidney No. 1 Lake Park',
+}, {
+  key: '7',
   name: 'Jim Red',
   age: 32,
   address: 'London No. 2 Lake Park',
@@ -42,13 +57,13 @@ export default class Tablelist extends React.Component {
       this.onChange = this.onChange.bind(this)
   }
 
-  handleChange(pagination, filters, sorter){
-     this.setState({
+   handleChange(pagination, filters, sorter){
+    console.log('Various parameters', pagination, filters, sorter);
+    this.setState({
       filteredInfo: filters,
       sortedInfo: sorter,
-    })
+    });
   }
-  
   clearFilters(){
     this.setState({ filteredInfo: null });
   }
@@ -77,10 +92,11 @@ export default class Tablelist extends React.Component {
     sortedInfo = sortedInfo || {};
     filteredInfo = filteredInfo || {};
     let {onChange} = this;
-    const columns = [{
+    const columns = [
+    {
       title: 'Name',
       dataIndex: 'name',
-      key: 'name',
+      width: 150,
       filters: [
         { text: 'Joe', value: 'Joe' },
         { text: 'Jim', value: 'Jim' },
@@ -89,16 +105,17 @@ export default class Tablelist extends React.Component {
       onFilter: (value, record) => record.name.includes(value),
       sorter: (a, b) => a.name.length - b.name.length,
       sortOrder: sortedInfo.columnKey === 'name' && sortedInfo.order,
-    }, {
+    }, 
+    {
       title: 'Age',
       dataIndex: 'age',
-      key: 'age',
+      width: 150,
       sorter: (a, b) => a.age - b.age,
       sortOrder: sortedInfo.columnKey === 'age' && sortedInfo.order,
-    }, {
+    },
+     {
       title: 'Address',
       dataIndex: 'address',
-      key: 'address',
       filters: [
         { text: 'London', value: 'London' },
         { text: 'New York', value: 'New York' },
@@ -107,7 +124,8 @@ export default class Tablelist extends React.Component {
       onFilter: (value, record) => record.address.includes(value),
       sorter: (a, b) => a.address.length - b.address.length,
       sortOrder: sortedInfo.columnKey === 'address' && sortedInfo.order,
-    }];
+    }
+    ];
     return (
       <div>
         <div className="table-operations">
@@ -124,7 +142,13 @@ export default class Tablelist extends React.Component {
             <Button type="primary" icon="download" size={'default'}>导出</Button>
 
         </div>
-        <Table columns={columns} dataSource={data} onChange={this.handleChange} />
+        <Table 
+          columns={columns} 
+          dataSource={data} 
+          pagination={{ pageSize: 5 }} 
+          scroll={{ y: 0 }} 
+          onChange={this.handleChange}
+        />
       </div>
     );
   }
