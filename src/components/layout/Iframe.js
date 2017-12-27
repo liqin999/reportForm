@@ -2,11 +2,13 @@
 import { Layout, Menu, Breadcrumb, Icon ,Tag } from 'antd';
 const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
-
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom';
 import Tablelist from 'components/datatable/Tablelist.js';
 import cfg from 'common/config/config.json';
-
-import Menus from 'components/layout/Menus.js';
 
 var environment = {
     devHttp:"http://ca-web.yun300.cn",
@@ -68,7 +70,10 @@ constructor(props) {
  	SubMenuCon = database.map((item,index)=>{//两层嵌套的map循环
 		MenuItemCon = item.options.map((_item,_index)=>{
 			return (
-				<Menu.Item key={_item.id}>{_item.tabname}</Menu.Item>
+				/*<Menu.Item key={_item.id}>{_item.tabname}</Menu.Item>*/
+        <Menu.Item key={_item.id}>
+            {<Link to={`/${_item.tabname}`}>{_item.tabname}</Link>}
+        </Menu.Item>
 			)
  		});
  		return (//组件之间数据的传递
@@ -97,7 +102,10 @@ constructor(props) {
           </Menu>
         </Sider>
         <Content style={{ padding: '0 24px', minHeight: 280 }}>
-            <Tablelist />
+            //将路由信息放到state中  这个地方拿到值
+            // 进行遍历，根据状态动态改变path
+           <Route path="/ODS_WebLog" component={Tablelist}/>
+
         </Content>
       </Layout>
     </Content>
