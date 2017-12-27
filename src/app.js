@@ -8,7 +8,6 @@ import {
   Link
 } from 'react-router-dom';
 
-import $ from 'jQuery';
 import Iframe from 'components/layout/Iframe';
 class App extends React.Component{
 

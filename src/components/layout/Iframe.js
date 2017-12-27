@@ -5,31 +5,79 @@ const { Header, Content, Footer, Sider } = Layout;
 
 import Tablelist from 'components/datatable/Tablelist.js';
 import cfg from 'common/config/config.json';
+
+import Menus from 'components/layout/Menus.js';
+
+var environment = {
+    devHttp:"http://ca-web.yun300.cn",
+    testHttp:'http://data.yun300.cn',
+    conHttp:'http://webapp.data.yun300.cn',
+    default:"http://ca-web.yun300.cn"
+};
+//判断接口环境
+function getDomain(){
+    switch (window.location.host) {
+        case 'ca-web.yun300.cn':
+            return environment.devHttp;
+        case 'data.yun300.cn':
+            return environment.testHttp;
+        case 'webapp.data.yun300.cn':
+            return environment.conHttp;
+        default:
+            return environment.default;
+    }
+}
+
 export default class Iframe extends React.Component{
 
 constructor(props) {
     super(props);
     this.state={
     	 previews: [],
-    	 authors: []
+    	 authors: [],
+    	 database:[],//默认请求的数据库和数据表
     }
    
  }
 
-  componentDidMount(){//从后台获得数据
-     $.post(`${cfg.url}/getPreview`)
+  componentDidMount(){//从后台获得数据   $.get(`${cfg.url}/getPreview`)
+  //假数据：    'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/getdatabase'
+  //测试数据：  getDomain() + '/dm/jdbc/allTables'
+  let _getallTableUrl = 'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/getdatabase';
+     $.get(_getallTableUrl)
         .done(ret=>{
-            if(ret.code===0){
-            	console.log(ret)
-                this.setState({
-                    previews: ret.data
-                });
-            }
+             this.setState({
+                    database: ret.data.database
+             });
+           
         });
   }
 
  render(){
- 	return (
+ 	let SubMenuCon = null;
+ 	let MenuItemCon = null;
+ 	let {database} = this.state;
+ 	console.log(database)
+ 	let temp = (
+ 			 <React.Fragment>
+ 			   <Menu.Item key="66">option66</Menu.Item>
+	           <Menu.Item key="77">option77</Menu.Item>
+	           <Menu.Item key="88">option88</Menu.Item>
+ 			</React.Fragment> 
+ 		);
+ 	SubMenuCon = database.map((item,index)=>{
+ 		return (//组件之间数据的传递
+ 			<SubMenu key={index} parentId={item.id} title={<span><Icon type="user" />{item.database}</span>}>
+				  
+		     	<Menu.Item key="66">option66</Menu.Item>			
+
+            </SubMenu>
+ 			)
+ 	});
+
+
+
+ return (
   <Layout>
     <Content style={{ padding: '0 50px' }}>
       <Breadcrumb style={{ margin: '16px 0' }}>
@@ -44,24 +92,9 @@ constructor(props) {
             defaultOpenKeys={['sub1']}
             style={{ height: '100%' }}
           >
-            <SubMenu key="sub1" title={<span><Icon type="user" />subnav 1</span>}>
-              <Menu.Item key="1">option1</Menu.Item>
-              <Menu.Item key="2">option2</Menu.Item>
-              <Menu.Item key="3">option3</Menu.Item>
-              <Menu.Item key="4">option4</Menu.Item>
-            </SubMenu>
-            <SubMenu key="sub2" title={<span><Icon type="laptop" />subnav 2</span>}>
-              <Menu.Item key="5">option5</Menu.Item>
-              <Menu.Item key="6">option6</Menu.Item>
-              <Menu.Item key="7">option7</Menu.Item>
-              <Menu.Item key="8">option8</Menu.Item>
-            </SubMenu>
-            <SubMenu key="sub3" title={<span><Icon type="notification" />subnav 3</span>}>
-              <Menu.Item key="9">option9</Menu.Item>
-              <Menu.Item key="10">option10</Menu.Item>
-              <Menu.Item key="11">option11</Menu.Item>
-              <Menu.Item key="12">option12</Menu.Item>
-            </SubMenu>
+		    {SubMenuCon}
+
+
           </Menu>
         </Sider>
         <Content style={{ padding: '0 24px', minHeight: 280 }}>
