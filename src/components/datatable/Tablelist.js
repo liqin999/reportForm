@@ -2,6 +2,8 @@
 require("./tablelist.css");
 import { Table, Button ,DatePicker, Icon } from 'antd';
 
+import RouteIndex from 'components/Routecom/RouteIndex.js';
+
 const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 //列表显示数据
 const data = [{
@@ -58,7 +60,7 @@ export default class Tablelist extends React.Component {
   }
 
    handleChange(pagination, filters, sorter){
-    console.log('Various parameters', pagination, filters, sorter);
+    //console.log('Various parameters', pagination, filters, sorter);
     this.setState({
       filteredInfo: filters,
       sortedInfo: sorter,
@@ -85,9 +87,24 @@ export default class Tablelist extends React.Component {
   }
 
   onChange(date, dateString) {
-     console.log(date, dateString);
+     //console.log(date, dateString);
   }
   render() {
+  let {match:{url},location} = this.props;
+
+  let pathname = location.pathname;
+
+  //console.log(pathname);
+  //console.log(location);
+  //取到id  然后发送请求
+  let databaseId = location.state.databaseId;
+  let tableId = location.state.tableId;
+  //console.log(databaseId,tableId);
+
+
+  //可以根据地址的不同进行抽离出来信息，然后向后台发送请求，达到数据
+  //进行渲染的行为
+
     let { sortedInfo, filteredInfo } = this.state;
     sortedInfo = sortedInfo || {};
     filteredInfo = filteredInfo || {};
@@ -129,6 +146,7 @@ export default class Tablelist extends React.Component {
     return (
       <div>
         <div className="table-operations">
+
             <span className='mr20'>
              日报:
             </span>
@@ -138,6 +156,8 @@ export default class Tablelist extends React.Component {
             月报：
             </span>
             <MonthPicker onChange={onChange} placeholder="Select month" className='mr20'/>
+
+
             <Button type="primary"  icon="search" size={'default'}>查询</Button>
             <Button type="primary" icon="download" size={'default'}>导出</Button>
 

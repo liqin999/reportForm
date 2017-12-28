@@ -7,9 +7,9 @@ import {
   Route,
   Link
 } from 'react-router-dom';
-import Tablelist from 'components/datatable/Tablelist.js';
-import cfg from 'common/config/config.json';
 
+import cfg from 'common/config/config.json';
+import RouteIndex from 'components/Routecom/RouteIndex.js';
 var environment = {
     devHttp:"http://ca-web.yun300.cn",
     testHttp:'http://data.yun300.cn',
@@ -55,24 +55,24 @@ constructor(props) {
   }
 
  render(){
- 	let SubMenuCon = null;
+ 	let SubMenuCon = null;//路由链接
  	let MenuItemCon = null;
  	let {database} = this.state;
- 	console.log(database);
-
- 	/*let temp = (
- 			 <React.Fragment>
- 			   <Menu.Item key="66">option66</Menu.Item>
-	           <Menu.Item key="77">option77</Menu.Item>
-	           <Menu.Item key="88">option88</Menu.Item>
- 			</React.Fragment> 
- 		);*/
+ 	//循环创建路由的链接对象
  	SubMenuCon = database.map((item,index)=>{//两层嵌套的map循环
 		MenuItemCon = item.options.map((_item,_index)=>{
 			return (
 				/*<Menu.Item key={_item.id}>{_item.tabname}</Menu.Item>*/
         <Menu.Item key={_item.id}>
-            {<Link to={`/${_item.tabname}`}>{_item.tabname}</Link>}
+            {<Link to={{ 
+            	pathname:`/${_item.tabname}`,
+            	state: {
+            	 	databaseId: item.id,
+            	 	tableId:_item.id
+            	 }
+            }}>
+               {_item.tabname}
+            </Link>}
         </Menu.Item>
 			)
  		});
@@ -102,9 +102,8 @@ constructor(props) {
           </Menu>
         </Sider>
         <Content style={{ padding: '0 24px', minHeight: 280 }}>
-            //将路由信息放到state中  这个地方拿到值
-            // 进行遍历，根据状态动态改变path
-           <Route path="/ODS_WebLog" component={Tablelist}/>
+
+			<RouteIndex database={database}/>
 
         </Content>
       </Layout>
