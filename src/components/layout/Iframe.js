@@ -43,12 +43,13 @@ constructor(props) {
  }
 
   componentDidMount(){//从后台获得数据   $.get(`${cfg.url}/getPreview`)
-  //假数据：    'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/getdatabase'
+  //假数据：    'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/getdatabase';
   //测试数据：  getDomain() + '/dm/jdbc/allTables'
+  let that = this;
   let _getallTableUrl = 'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/getdatabase';
      $.get(_getallTableUrl)
         .done(ret=>{
-             this.setState({
+             that.setState({
                     database: ret.data.database
              });
         });
@@ -68,7 +69,8 @@ constructor(props) {
             	pathname:`/${_item.tabname}`,
             	state: {
             	 	databaseId: item.id,
-            	 	tableId:_item.id
+            	 	tableId:_item.id,
+            	 	tableType:_item.type
             	 }
             }}>
                {_item.tabname}
@@ -102,9 +104,9 @@ constructor(props) {
           </Menu>
         </Sider>
         <Content style={{ padding: '0 24px', minHeight: 280 }}>
-
-			<RouteIndex database={database}/>
-
+        	
+             <RouteIndex database={database}/>
+        	
         </Content>
       </Layout>
     </Content>

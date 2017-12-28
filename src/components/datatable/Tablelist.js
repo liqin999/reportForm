@@ -5,43 +5,26 @@ import { Table, Button ,DatePicker, Icon } from 'antd';
 import RouteIndex from 'components/Routecom/RouteIndex.js';
 
 const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
-//列表显示数据
-const data = [{
-  key: '1',
-  name: 'John Brown',
-  age: 38,
-  address: 'New York No. 1 Lake Park',
-}, {
-  key: '2',
-  name: 'Jim Green',
-  age: 42,
-  address: 'London No. 1 Lake Park',
-}, {
-  key: '3',
-  name: 'Joe Black',
-  age: 32,
-  address: 'Sidney No. 1 Lake Park',
-}, {
-  key: '4',
-  name: 'Jim Red',
-  age: 32,
-  address: 'London No. 2 Lake Park',
-}, {
-  key: '5',
-  name: 'Jim Green',
-  age: 42,
-  address: 'London No. 1 Lake Park',
-}, {
-  key: '6',
-  name: 'Joe Black',
-  age: 32,
-  address: 'Sidney No. 1 Lake Park',
-}, {
-  key: '7',
-  name: 'Jim Red',
-  age: 32,
-  address: 'London No. 2 Lake Park',
-}];
+
+var environment = {
+    devHttp:"http://ca-web.yun300.cn",
+    testHttp:'http://data.yun300.cn',
+    conHttp:'http://webapp.data.yun300.cn',
+    default:"http://ca-web.yun300.cn"
+};
+//判断接口环境
+function getDomain(){
+    switch (window.location.host) {
+        case 'ca-web.yun300.cn':
+            return environment.devHttp;
+        case 'data.yun300.cn':
+            return environment.testHttp;
+        case 'webapp.data.yun300.cn':
+            return environment.conHttp;
+        default:
+            return environment.default;
+    }
+}
 
 export default class Tablelist extends React.Component {
   constructor(props) {
@@ -49,14 +32,84 @@ export default class Tablelist extends React.Component {
       this.state = {
         filteredInfo: null,
         sortedInfo: null,
-        size: 'default',
+        size: 'default',//按钮大小
+        databaseId:null,// 数据库id
+        tableId:null,//数据表id
+        status:null,//日报或者月报
+        time:'',//查询的时间
+        data:[],//列表数据
+        columns:[],//列表的表头信息
+        tableType:null//报表类型
+
       };
-      this.handleChange = this.handleChange.bind(this)
-      this.clearFilters = this.clearFilters.bind(this)
-      this.clearAll = this.clearAll.bind(this)
-      this.setAgeSort = this.setAgeSort.bind(this)
-      this.handleChange = this.handleChange.bind(this)
-      this.onChange = this.onChange.bind(this)
+      this.handleChange = this.handleChange.bind(this);
+      this.onChangeDate = this.onChangeDate.bind(this);
+      this.handleQuery = this.handleQuery.bind(this);
+  }
+  componentWillUnmount(){//移除的时候立刻被调用。
+       this.setState({
+          data:[],//列表数据
+          columns:[]//列表的表头信息
+        });
+  }
+
+  componentDidMount(){//第一次渲染的调用组建
+          let {location} = this.props;
+          let tableType = location.state.tableType;
+          this.setState({
+            tableType:tableType
+          });
+          console.log(tableType+"ok")
+          this.handleGetData();
+  }
+  handleGetData(){
+     let {match:{url},location} = this.props;
+        let that = this;
+        let pathname = location.pathname;
+        let databaseId = location.state.databaseId;
+        let tableId = location.state.tableId;
+        let{time} = this.state;
+        //拿到数据id和数据表的id  
+        console.log("数据库id:"+databaseId+";表id:"+tableId);
+        this.setState({
+          databaseId,
+          tableId
+        });
+        //假数据：    'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/onlyTable';
+       //测试数据：  getDomain() + '/dm/jdbc/onlyTable';
+       let _postonlyTableUrl = 'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/onlyTable';
+       let postData = {
+              'select':
+                        {
+                          'time':'',//查询的时间  不传时间表示查询所有数据
+                         
+                          'dataid':{// 数据库id和数据表id
+                              //eg:第一个数据库中 第六张表
+                          }
+                        }
+                      
+       };
+
+       postData.select["time"]=time;
+      
+       postData.select.dataid[databaseId]=location.state.tableId;
+      if(typeof postData.select == "object"){
+          postData.select =JSON.stringify(postData.select);
+        }
+       $.ajax({
+          type: 'POST',
+          url: _postonlyTableUrl,
+          data: postData,
+          success: function(res){
+              let _tabdata = res.data.tableList.data;//列表数据
+              let _tabcolumns = res.data.tableList.columns;//列表的表头信息
+              that.setState({
+                   data:_tabdata,
+                   columns:_tabcolumns
+              })
+          }
+          
+        });
   }
 
    handleChange(pagination, filters, sorter){
@@ -66,99 +119,57 @@ export default class Tablelist extends React.Component {
       sortedInfo: sorter,
     });
   }
-  clearFilters(){
-    this.setState({ filteredInfo: null });
-  }
 
-  clearAll(){
+  onChangeDate(date, dateString) {
+     console.log(date, dateString);
       this.setState({
-        filteredInfo: null,
-        sortedInfo: null,
-      });
+         time:dateString
+      })
   }
 
-  setAgeSort() {
-    this.setState({
-      sortedInfo: {
-        order: 'descend',
-        columnKey: 'age',
-      },
-    });
-  }
-
-  onChange(date, dateString) {
-     //console.log(date, dateString);
+  handleQuery(){
+      this.handleGetData();
   }
   render() {
   let {match:{url},location} = this.props;
-
   let pathname = location.pathname;
-
-  //console.log(pathname);
-  //console.log(location);
   //取到id  然后发送请求
   let databaseId = location.state.databaseId;
   let tableId = location.state.tableId;
-  //console.log(databaseId,tableId);
 
-
-  //可以根据地址的不同进行抽离出来信息，然后向后台发送请求，达到数据
-  //进行渲染的行为
-
-    let { sortedInfo, filteredInfo } = this.state;
-    sortedInfo = sortedInfo || {};
-    filteredInfo = filteredInfo || {};
-    let {onChange} = this;
-    const columns = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      width: 150,
-      filters: [
-        { text: 'Joe', value: 'Joe' },
-        { text: 'Jim', value: 'Jim' },
-      ],
-      filteredValue: filteredInfo.name || null,
-      onFilter: (value, record) => record.name.includes(value),
-      sorter: (a, b) => a.name.length - b.name.length,
-      sortOrder: sortedInfo.columnKey === 'name' && sortedInfo.order,
-    }, 
-    {
-      title: 'Age',
-      dataIndex: 'age',
-      width: 150,
-      sorter: (a, b) => a.age - b.age,
-      sortOrder: sortedInfo.columnKey === 'age' && sortedInfo.order,
-    },
-     {
-      title: 'Address',
-      dataIndex: 'address',
-      filters: [
-        { text: 'London', value: 'London' },
-        { text: 'New York', value: 'New York' },
-      ],
-      filteredValue: filteredInfo.address || null,
-      onFilter: (value, record) => record.address.includes(value),
-      sorter: (a, b) => a.address.length - b.address.length,
-      sortOrder: sortedInfo.columnKey === 'address' && sortedInfo.order,
-    }
-    ];
+  let { sortedInfo, filteredInfo ,data,columns} = this.state;
+  sortedInfo = sortedInfo || {};
+  filteredInfo = filteredInfo || {};
+  let {onChangeDate} = this;
+  let tableType = location.state.tableType;
+  let dataSeachCom = null;
+  if(tableType == 0){
+     dataSeachCom=(
+            <span>
+              <span className='mr20'>
+             日报:
+             </span>
+             <DatePicker onChange={onChangeDate} className='mr20'/>
+            </span>
+           
+      )
+  }else if(tableType == 1){
+      dataSeachCom=(
+      <span>
+         <span className='mr20'>
+               月报：
+            </span>
+            <MonthPicker onChange={onChangeDate} placeholder="Select month" className='mr20'/>
+      </span>
+          
+      )
+  }
     return (
       <div>
         <div className="table-operations">
 
-            <span className='mr20'>
-             日报:
-            </span>
-            <DatePicker onChange={onChange} className='mr20'/>
-            
-            <span className='mr20'>
-            月报：
-            </span>
-            <MonthPicker onChange={onChange} placeholder="Select month" className='mr20'/>
-
-
-            <Button type="primary"  icon="search" size={'default'}>查询</Button>
+            {dataSeachCom}
+            <Button type="primary"  icon="search" size={'default'} onClick={this.handleQuery}>查询</Button>
             <Button type="primary" icon="download" size={'default'}>导出</Button>
 
         </div>

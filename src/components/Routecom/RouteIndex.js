@@ -12,13 +12,15 @@ export default class RouteIndex extends React.Component{
              database:[],
              myIndex:0
 	    }
+   
      }
      componentWillReceiveProps(){//组件的声明周期的使用    componentWillReceiveProps
+     
      	let database = this.props.database
      	this.setState({database:database})
      }
      render(){
-       
+       	
      	let {database} = this.state;
      	let RouteCon = null;
      	var routeHtml = [];
@@ -36,12 +38,13 @@ export default class RouteIndex extends React.Component{
                		}
                	}
      	 	}
-
 	    	
      	return(
      			<div>
      			  {routeHtml}
      			</div>
+     			
+     		 
      	      )
      }
 }
