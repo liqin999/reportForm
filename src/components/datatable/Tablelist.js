@@ -77,22 +77,22 @@ export default class Tablelist extends React.Component {
         });
         //假数据：    'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/onlyTable';
        //测试数据：  getDomain() + '/dm/jdbc/onlyTable';
-       let _postonlyTableUrl = 'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/onlyTable';
+       let _postonlyTableUrl = getDomain() + '/dm/jdbc/onlyTable';
        let postData = {
               'select':
                         {
-                          'time':'',//查询的时间  不传时间表示查询所有数据
-                         
-                          'dataid':{// 数据库id和数据表id
-                              //eg:第一个数据库中 第六张表
-                          }
+                        
+                          'databaseId':'',
+                          'tableId':''
                         }
                       
        };
-
-       postData.select["time"]=time;
-      
-       postData.select.dataid[databaseId]=location.state.tableId;
+       if(time != '' && time !=null){
+         postData.select["time"]=time;
+       }
+       postData.select["databaseId"]=databaseId;
+       postData.select["tableId"]=tableId;
+     
       if(typeof postData.select == "object"){
           postData.select =JSON.stringify(postData.select);
         }
@@ -101,6 +101,10 @@ export default class Tablelist extends React.Component {
           url: _postonlyTableUrl,
           data: postData,
           success: function(res){
+            if(typeof(res) == 'string'){
+                res = JSON.parse(res);
+            };
+              
               let _tabdata = res.data.tableList.data;//列表数据
               let _tabcolumns = res.data.tableList.columns;//列表的表头信息
               that.setState({

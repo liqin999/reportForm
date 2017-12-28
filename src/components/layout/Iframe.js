@@ -44,11 +44,15 @@ constructor(props) {
 
   componentDidMount(){//从后台获得数据   $.get(`${cfg.url}/getPreview`)
   //假数据：    'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/getdatabase';
-  //测试数据：  getDomain() + '/dm/jdbc/allTables'
+  //测试数据：  getDomain() + '/dm/jdbc/allTables';
   let that = this;
-  let _getallTableUrl = 'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/getdatabase';
+  let _getallTableUrl =  getDomain() + '/dm/jdbc/allTables';
      $.get(_getallTableUrl)
         .done(ret=>{
+        	if(typeof(ret) == 'string'){
+                ret = JSON.parse(ret);	
+        	 };
+        
              that.setState({
                     database: ret.data.database
              });
