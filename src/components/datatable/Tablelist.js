@@ -66,6 +66,19 @@ export default class Tablelist extends React.Component {
           });
           console.log(tableType+"ok");
           //this.handleGetData();
+          //根据日报还是月报设置默认的日期的参数
+          let yearmonthday = dateformat.getNowDate('YMD',{d:1});
+          let yearmonth = dateformat.getNowDate('YM',{m:1});
+          if(tableType == 0){// 日报
+             this.setState({
+                time:yearmonthday
+              });
+          }else if(tableType == 1){//月报
+             this.setState({
+                time:yearmonth
+             });
+          }
+          
   }
   handleGetData(){
      let {match:{url},location} = this.props;
@@ -83,7 +96,7 @@ export default class Tablelist extends React.Component {
         });
         //假数据：   'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/onlyTable';
        //测试数据：  getDomain() + '/dm/jdbc/onlyTable';
-       let _postonlyTableUrl = getDomain() + '/dm/jdbc/onlyTable';
+       let _postonlyTableUrl = 'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/onlyTable';
        let postData = {
               'select':
                         {
