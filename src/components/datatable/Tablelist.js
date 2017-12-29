@@ -68,7 +68,7 @@ export default class Tablelist extends React.Component {
           this.setState({
             tableType:tableType
           });
-          console.log(tableType+"ok");
+        
           //this.handleGetData();
           //根据日报还是月报设置默认的日期的参数
           let yearmonthday = dateformat.getNowDate('YMD',{d:1});
@@ -85,6 +85,11 @@ export default class Tablelist extends React.Component {
           
   }
   handleGetData(trueurl){
+        //每次查询的时候将表格清空
+        this.setState({
+                   data:[],
+                   columns:[]
+        });
         let {match:{url},location} = this.props;
         let that = this;
         let pathname = location.pathname;
@@ -93,7 +98,6 @@ export default class Tablelist extends React.Component {
         let field_name = location.state.field_name;
         let{time} = this.state;
         //拿到数据id和数据表的id  
-        console.log("数据库id:"+databaseId+";表id:"+tableId);
         this.setState({
           databaseId,
           tableId,
@@ -125,10 +129,17 @@ export default class Tablelist extends React.Component {
           url: _postonlyTableUrl,
           data: postData,
           success: function(res){
+
             if(typeof(res) == 'string'){
                 res = JSON.parse(res);
             };
-              
+            if(!res.data.tableList.data){//没有数据清空列表
+                 that.setState({
+                   data:[],
+                   columns:[]
+                 });
+                 return;
+            };
             let _tabdata = res.data.tableList.data;//列表数据
             let _tabcolumns = res.data.tableList.columns;//列表的表头信息
             that.setState({
@@ -177,7 +188,7 @@ export default class Tablelist extends React.Component {
   }
 
   onChangeDate(date, dateString) {
-     console.log(date, dateString);
+    
       this.setState({
          time:dateString
       })
@@ -198,7 +209,7 @@ export default class Tablelist extends React.Component {
   let yearmonthday = dateformat.getNowDate('YMD',{d:1});
   let yearmonth = dateformat.getNowDate('YM',{m:1});
 
-  console.log(yearmonth)
+
   let { sortedInfo, filteredInfo ,data,columns} = this.state;
   sortedInfo = sortedInfo || {};
   filteredInfo = filteredInfo || {};
