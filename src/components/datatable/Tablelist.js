@@ -68,6 +68,7 @@ export default class Tablelist extends React.Component {
         let pathname = location.pathname;
         let databaseId = location.state.databaseId;
         let tableId = location.state.tableId;
+        let file_Name = location.state.file_Name;
         let{time} = this.state;
         //拿到数据id和数据表的id  
         console.log("数据库id:"+databaseId+";表id:"+tableId);
@@ -83,16 +84,17 @@ export default class Tablelist extends React.Component {
                         {
                         
                           'databaseId':'',
-                          'tableId':''
+                          'tableId':'',
                         }
                       
        };
        if(time != '' && time !=null){
-         postData.select["time"]=time;
+         postData.select["file_Name"]=file_Name;
+         postData.select["file_Value"]=time;
        }
        postData.select["databaseId"]=databaseId;
        postData.select["tableId"]=tableId;
-     
+       
       if(typeof postData.select == "object"){
           postData.select =JSON.stringify(postData.select);
         }

@@ -74,7 +74,8 @@ constructor(props) {
             	state: {
             	 	databaseId: item.id,
             	 	tableId:_item.id,
-            	 	tableType:_item.type
+            	 	tableType:_item.type,
+            	 	file_Name:_item.file_Name
             	 }
             }}>
                {_item.tabname}
@@ -99,7 +100,6 @@ constructor(props) {
         <Sider width={200} style={{ background: '#fff' }}>
           <Menu
             mode="inline"
-            defaultSelectedKeys={['1']}
             defaultOpenKeys={['sub1']}
             style={{ height: '100%' }}
           >
