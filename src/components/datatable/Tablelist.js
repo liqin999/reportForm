@@ -201,7 +201,7 @@ export default class Tablelist extends React.Component {
       this.handleGetData(_url);
   }
   render() {
-  let {match:{url},location} = this.props;
+  let {location} = this.props;
   let pathname = location.pathname;
   //取到id  然后发送请求
   let databaseId = location.state.databaseId;

@@ -6,7 +6,7 @@ const {dfPath} = require('./cfg/default');
 
 let app = new ( require('express') )();
 
-let port = 9003;
+let port = 9006;
 
 config.entry.unshift('webpack-hot-middleware/client?reload=true');
 

@@ -48,7 +48,7 @@ constructor(props) {
   //假数据：    'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/getdatabase';
   //测试数据：  getDomain() + '/dm/jdbc/allTables';
   let that = this;
-  let _getallTableUrl =    getDomain() + '/dm/jdbc/allTables';
+  let _getallTableUrl = getDomain() + '/dm/jdbc/allTables';
      $.get(_getallTableUrl)
         .done(ret=>{
         	if(typeof(ret) == 'string'){
@@ -98,7 +98,7 @@ constructor(props) {
       <Breadcrumb style={{ margin: '16px 0' }}>
         <Breadcrumb.Item>数据报表展示</Breadcrumb.Item>
       </Breadcrumb>
-      <HashRouter>
+      <Router>
       <Layout style={{ padding: '24px 0', background: '#fff' }}>
         <Sider width={200} style={{ background: '#fff' }}>
           <Menu
@@ -114,7 +114,7 @@ constructor(props) {
              <RouteIndex database={database}/>
         </Content>
       </Layout>
-	  </HashRouter>
+	  </Router>
     </Content>
 
 

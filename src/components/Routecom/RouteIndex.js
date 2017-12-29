@@ -34,7 +34,7 @@ export default class RouteIndex extends React.Component{
                		for(var j=0;j<cur.length;j++){
                			var nowCur = cur[j];
                			var tabname = nowCur.tabname;
-               			routeHtml.push(<Route path={`/${tabname}`} key={Math.random()} component={Tablelist}/>)
+               			routeHtml.push(<Route exact path={`/${tabname}`} key={Math.random()} component={Tablelist}/>)
                          
                		}
                	}
