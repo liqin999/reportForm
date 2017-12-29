@@ -90,7 +90,7 @@ export default class Tablelist extends React.Component {
                    data:[],
                    columns:[]
         });
-        let {match:{url},location} = this.props;
+        let {location} = this.props;
         let that = this;
         let pathname = location.pathname;
         let databaseId = location.state.databaseId;
