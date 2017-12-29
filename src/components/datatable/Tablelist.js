@@ -47,7 +47,7 @@ export default class Tablelist extends React.Component {
       this.handleQuery = this.handleQuery.bind(this);
   }
   componentWillUnmount(){//移除的时候立刻被调用。
-       this.setState({
+        this.setState({
           data:[],//列表数据
           columns:[]//列表的表头信息
         });
@@ -59,8 +59,8 @@ export default class Tablelist extends React.Component {
           this.setState({
             tableType:tableType
           });
-          console.log(tableType+"ok")
-          this.handleGetData();
+          console.log(tableType+"ok");
+          //this.handleGetData();
   }
   handleGetData(){
      let {match:{url},location} = this.props;
@@ -68,7 +68,7 @@ export default class Tablelist extends React.Component {
         let pathname = location.pathname;
         let databaseId = location.state.databaseId;
         let tableId = location.state.tableId;
-        let file_Name = location.state.file_Name;
+        let field_name = location.state.field_name;
         let{time} = this.state;
         //拿到数据id和数据表的id  
         console.log("数据库id:"+databaseId+";表id:"+tableId);
@@ -89,8 +89,8 @@ export default class Tablelist extends React.Component {
                       
        };
        if(time != '' && time !=null){
-         postData.select["file_Name"]=file_Name;
-         postData.select["file_Value"]=time;
+         postData.select["field_name"]=field_name;
+         postData.select["field_value"]=time;
        }
        postData.select["databaseId"]=databaseId;
        postData.select["tableId"]=tableId;

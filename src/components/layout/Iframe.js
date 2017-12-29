@@ -5,7 +5,9 @@ const { Header, Content, Footer, Sider } = Layout;
 import {
   BrowserRouter as Router,
   Route,
-  Link
+  Link,
+  NavLink ,
+  HashRouter
 } from 'react-router-dom';
 
 import cfg from 'common/config/config.json';
@@ -75,7 +77,7 @@ constructor(props) {
             	 	databaseId: item.id,
             	 	tableId:_item.id,
             	 	tableType:_item.type,
-            	 	file_Name:_item.file_Name
+            	 	field_name:_item.condition
             	 }
             }}>
                {_item.tabname}
@@ -96,6 +98,7 @@ constructor(props) {
       <Breadcrumb style={{ margin: '16px 0' }}>
         <Breadcrumb.Item>数据报表展示</Breadcrumb.Item>
       </Breadcrumb>
+      <HashRouter>
       <Layout style={{ padding: '24px 0', background: '#fff' }}>
         <Sider width={200} style={{ background: '#fff' }}>
           <Menu
@@ -108,12 +111,13 @@ constructor(props) {
           </Menu>
         </Sider>
         <Content style={{ padding: '0 24px', minHeight: 280 }}>
-        	
              <RouteIndex database={database}/>
-        	
         </Content>
       </Layout>
+	  </HashRouter>
     </Content>
+
+
     <Footer style={{ textAlign: 'center' }}>
 	    <div>
 	       版权所有 © 1999-2017 北京中企网动力数码科技有限公司    Copyright © 1999-2017 300.cn All Rights Reserved
