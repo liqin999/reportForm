@@ -2,7 +2,8 @@ import {
   BrowserRouter as Router,
   Route,
   Link,
-  Prompt
+  Prompt,
+  Redirect
 } from 'react-router-dom';
 import Tablelist from 'components/datatable/Tablelist.js';
 export default class RouteIndex extends React.Component{

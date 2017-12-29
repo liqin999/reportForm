@@ -1,8 +1,9 @@
 
 require("./tablelist.css");
 import { Table, Button ,DatePicker, Icon } from 'antd';
-
+import moment from 'moment';
 import RouteIndex from 'components/Routecom/RouteIndex.js';
+import dateformat from 'common/tools/date.js'
 
 const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 
@@ -12,6 +13,10 @@ var environment = {
     conHttp:'http://webapp.data.yun300.cn',
     default:"http://ca-web.yun300.cn"
 };
+
+const dateFormat = 'YYYY/MM/DD';
+const monthFormat = 'YYYY/MM';
+
 //判断接口环境
 function getDomain(){
     switch (window.location.host) {
@@ -76,7 +81,7 @@ export default class Tablelist extends React.Component {
           databaseId,
           tableId
         });
-        //假数据：    'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/onlyTable';
+        //假数据：   'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/onlyTable';
        //测试数据：  getDomain() + '/dm/jdbc/onlyTable';
        let _postonlyTableUrl = getDomain() + '/dm/jdbc/onlyTable';
        let postData = {
@@ -142,7 +147,10 @@ export default class Tablelist extends React.Component {
   //取到id  然后发送请求
   let databaseId = location.state.databaseId;
   let tableId = location.state.tableId;
+  let yearmonthday = dateformat.getNowDate('YMD',{d:1});
+  let yearmonth = dateformat.getNowDate('YM',{m:1});
 
+  console.log(yearmonth)
   let { sortedInfo, filteredInfo ,data,columns} = this.state;
   sortedInfo = sortedInfo || {};
   filteredInfo = filteredInfo || {};
@@ -155,7 +163,12 @@ export default class Tablelist extends React.Component {
               <span className='mr20'>
              日报:
              </span>
-             <DatePicker onChange={onChangeDate} className='mr20'/>
+             <DatePicker 
+               onChange={onChangeDate}
+               defaultValue={moment(yearmonthday, dateFormat)} 
+               format={dateFormat} 
+               className='mr20'
+              />
             </span>
            
       )
@@ -165,7 +178,12 @@ export default class Tablelist extends React.Component {
          <span className='mr20'>
                月报：
             </span>
-            <MonthPicker onChange={onChangeDate} placeholder="Select month" className='mr20'/>
+            <MonthPicker 
+            onChange={onChangeDate} 
+            placeholder="Select month" 
+            defaultValue={moment(yearmonth, monthFormat)} 
+            format={monthFormat}
+            className='mr20'/>
       </span>
           
       )
