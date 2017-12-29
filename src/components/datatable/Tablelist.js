@@ -44,12 +44,16 @@ export default class Tablelist extends React.Component {
         time:'',//查询的时间
         data:[],//列表数据
         columns:[],//列表的表头信息
-        tableType:null//报表类型
+        tableType:null,//报表类型
+        exportLinkUrl:'dd',// 导出表格的接口
+        field_name:''
 
       };
       this.handleChange = this.handleChange.bind(this);
       this.onChangeDate = this.onChangeDate.bind(this);
       this.handleQuery = this.handleQuery.bind(this);
+      this.handleExportData = this.handleExportData.bind(this);
+
   }
   componentWillUnmount(){//移除的时候立刻被调用。
         this.setState({
@@ -80,8 +84,8 @@ export default class Tablelist extends React.Component {
           }
           
   }
-  handleGetData(){
-     let {match:{url},location} = this.props;
+  handleGetData(trueurl){
+        let {match:{url},location} = this.props;
         let that = this;
         let pathname = location.pathname;
         let databaseId = location.state.databaseId;
@@ -92,11 +96,11 @@ export default class Tablelist extends React.Component {
         console.log("数据库id:"+databaseId+";表id:"+tableId);
         this.setState({
           databaseId,
-          tableId
+          tableId,
+          field_name
+         
         });
-        //假数据：   'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/onlyTable';
-       //测试数据：  getDomain() + '/dm/jdbc/onlyTable';
-       let _postonlyTableUrl = 'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/onlyTable';
+       let _postonlyTableUrl = trueurl;
        let postData = {
               'select':
                         {
@@ -125,23 +129,51 @@ export default class Tablelist extends React.Component {
                 res = JSON.parse(res);
             };
               
-              let _tabdata = res.data.tableList.data;//列表数据
-              let _tabcolumns = res.data.tableList.columns;//列表的表头信息
-              that.setState({
+            let _tabdata = res.data.tableList.data;//列表数据
+            let _tabcolumns = res.data.tableList.columns;//列表的表头信息
+            that.setState({
                    data:_tabdata,
                    columns:_tabcolumns
-              })
+            })
+
+             let exportUrl = getDomain() + '/dm/jdbc/exprotAccountList';
+             let tableId = that.state.tableId;
+             let databaseId = that.state.databaseId;
+             let field_name = location.state.field_name;
+             let field_value = that.state.time;
+             // JSON.stringify会自动将引号加上，然后再由encodeURIComponent解析一遍
+             let TableIdKey = encodeURIComponent(JSON.stringify('tableId'));
+             let TableIdVal = encodeURIComponent(JSON.stringify(tableId));
+
+             let DatabaseIdKey = encodeURIComponent(JSON.stringify('databaseId'));
+             let DatabaseIdVal = encodeURIComponent(JSON.stringify(databaseId));
+
+             let Field_nameKey = encodeURIComponent(JSON.stringify('field_name'));
+             let Field_nameVal = encodeURIComponent(JSON.stringify(field_name));
+
+             let Field_valueKey = encodeURIComponent(JSON.stringify('field_value'));
+             let Field_valueVal = encodeURIComponent(JSON.stringify(field_value));
+
+             let exportLinkUrl  = exportUrl + '?' + 'select={'+TableIdKey+':'+TableIdVal+','+DatabaseIdKey+':'+DatabaseIdVal+','+Field_nameKey+':'+Field_nameVal+','+Field_valueKey+':'+Field_valueVal+'}';
+          
+             that.setState({
+                exportLinkUrl,
+             });
+
           }
           
         });
   }
 
    handleChange(pagination, filters, sorter){
-    //console.log('Various parameters', pagination, filters, sorter);
     this.setState({
       filteredInfo: filters,
       sortedInfo: sorter,
     });
+  }
+
+  handleExportData(){//数据导出
+      return;
   }
 
   onChangeDate(date, dateString) {
@@ -151,8 +183,11 @@ export default class Tablelist extends React.Component {
       })
   }
 
-  handleQuery(){
-      this.handleGetData();
+  handleQuery(){//数据查询
+       //假数据：   'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/onlyTable';
+       //测试数据：  getDomain() + '/dm/jdbc/onlyTable';
+      let _url= getDomain() + '/dm/jdbc/onlyTable';
+      this.handleGetData(_url);
   }
   render() {
   let {match:{url},location} = this.props;
@@ -206,14 +241,16 @@ export default class Tablelist extends React.Component {
         <div className="table-operations">
 
             {dataSeachCom}
-            <Button type="primary"  icon="search" size={'default'} onClick={this.handleQuery}>查询</Button>
-            <Button type="primary" icon="download" size={'default'}>导出</Button>
+            <Button type="primary" icon="search" size={'default'} onClick={this.handleQuery}>查询</Button>
+            <Button type="primary" icon="download" size={'default'} onClick={this.handleExportData}>
+               <a style={{'color':'#fff','marginLeft':'5px'}} href= {this.state.exportLinkUrl} >导出</a>
+            </Button>
 
         </div>
         <Table 
           columns={columns} 
           dataSource={data} 
-          pagination={{ pageSize: 5 }} 
+          pagination={{ pageSize: 10 }} 
           scroll={{ y: 0 }} 
           onChange={this.handleChange}
         />
