@@ -3,8 +3,8 @@ require("./tablelist.css");
 import { Table, Button ,DatePicker, Icon } from 'antd';
 import moment from 'moment';
 import RouteIndex from 'components/Routecom/RouteIndex.js';
-import dateformat from 'common/tools/date.js'
-
+import dateformat from 'common/tools/date.js';
+import { withRouter } from 'react-router-dom';
 const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 
 var environment = {
@@ -31,7 +31,7 @@ function getDomain(){
     }
 }
 
-export default class Tablelist extends React.Component {
+class Tablelist extends React.Component {
   constructor(props) {
       super(props);
       this.state = {
@@ -197,7 +197,7 @@ export default class Tablelist extends React.Component {
   handleQuery(){//数据查询
        //假数据：   'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/onlyTable';
        //测试数据：  getDomain() + '/dm/jdbc/onlyTable';
-      let _url= getDomain() + '/dm/jdbc/onlyTable';
+      let _url=  'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/onlyTable';
       this.handleGetData(_url);
   }
   render() {
@@ -269,3 +269,5 @@ export default class Tablelist extends React.Component {
     );
   }
 }
+//使用withRouter 可以取到match, location, history嵌套层级较多的问题
+export default withRouter(Tablelist);
