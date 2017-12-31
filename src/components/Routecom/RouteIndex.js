@@ -23,6 +23,7 @@ export default class RouteIndex extends React.Component{
      render(){
        	
      	let {database} = this.state;
+      let {changeDefaultTip} = this.props;
      	let RouteCon = null;
      	var routeHtml = [];
      	 	//创建路由链接对应的组件页面
@@ -34,7 +35,15 @@ export default class RouteIndex extends React.Component{
                		for(var j=0;j<cur.length;j++){
                			var nowCur = cur[j];
                			var tabname = nowCur.tabname;
-               			routeHtml.push(<Route exact path={`/${tabname}`} key={nowCur.id} component={Tablelist}/>)
+               			routeHtml.push(<Route exact 
+                      path={`/${tabname}`}
+                      key={nowCur.id}
+                      render={
+                        (props)=>(
+                           <Tablelist {...{changeDefaultTip}} />   
+                        )
+                      }
+                      />)
                          
                		}
                	}

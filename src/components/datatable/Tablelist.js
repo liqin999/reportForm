@@ -63,11 +63,13 @@ class Tablelist extends React.Component {
   }
 
   componentDidMount(){//第一次渲染的调用组建
-          let {location} = this.props;
+          let {location,changeDefaultTip} = this.props;
           let tableType = location.state.tableType;
           this.setState({
             tableType:tableType
           });
+
+           changeDefaultTip(false);
         
           //this.handleGetData();
           //根据日报还是月报设置默认的日期的参数

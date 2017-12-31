@@ -40,8 +40,15 @@ constructor(props) {
     	 previews: [],
     	 authors: [],
     	 database:[],//默认请求的数据库和数据表
-    }
-   
+       isDefaultTip:true,//是否显示默认的提示信息
+       defaultTip:''//提示信息
+    };
+   this.changeDefaultTip = this.changeDefaultTip.bind(this);
+ }
+ changeDefaultTip(isDefaultTip){
+    this.setState({
+      isDefaultTip
+    })
  }
 
   componentDidMount(){//从后台获得数据   $.get(`${cfg.url}/getPreview`)
@@ -64,7 +71,7 @@ constructor(props) {
  render(){
  	let SubMenuCon = null;//路由链接
  	let MenuItemCon = null;
- 	let {database} = this.state;
+ 	let {database,isDefaultTip,defaultTip} = this.state;
  	//循环创建路由的链接对象
  	SubMenuCon = database.map((item,index)=>{//两层嵌套的map循环
 		MenuItemCon = item.options.map((_item,_index)=>{
@@ -92,6 +99,15 @@ constructor(props) {
  			)
  	});
 
+  if(isDefaultTip){
+      defaultTip = (<div>
+           暂无数据 , 请点击左侧下拉导航...
+        </div>)
+  }else{
+      defaultTip = null
+  }
+ 
+
  return (
   <Layout>
     <Content style={{ padding: '0 50px' }}>
@@ -111,7 +127,8 @@ constructor(props) {
           </Menu>
         </Sider>
         <Content style={{ padding: '0 24px', minHeight: 280 }}>
-             <RouteIndex database={database}/>
+             <div>{defaultTip}</div> 
+             <RouteIndex database={database} changeDefaultTip={this.changeDefaultTip}/>
         </Content>
       </Layout>
 	  </Router>
