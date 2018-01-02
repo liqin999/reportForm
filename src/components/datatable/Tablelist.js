@@ -2,11 +2,12 @@
 require("./tablelist.css");
 import { Table, Button ,DatePicker, Icon } from 'antd';
 import moment from 'moment';
+import 'moment/locale/zh-cn';
 import RouteIndex from 'components/Routecom/RouteIndex.js';
 import dateformat from 'common/tools/date.js';
 import { withRouter } from 'react-router-dom';
 const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
-
+moment.locale('zh-cn');
 var environment = {
     devHttp:"http://ca-web.yun300.cn",
     testHttp:'http://data.yun300.cn',
