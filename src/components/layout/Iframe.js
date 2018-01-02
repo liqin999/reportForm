@@ -37,11 +37,12 @@ export default class Iframe extends React.Component{
 constructor(props) {
     super(props);
     this.state={
-    	 previews: [],
-    	 authors: [],
-    	 database:[],//默认请求的数据库和数据表
+       previews: [],
+       authors: [],
+       database:[],//默认请求的数据库和数据表
        isDefaultTip:true,//是否显示默认的提示信息
-       defaultTip:''//提示信息
+       defaultTip:'',//提示信息
+       layoutH:0// 内容的默认高度
     };
    this.changeDefaultTip = this.changeDefaultTip.bind(this);
  }
@@ -52,10 +53,14 @@ constructor(props) {
  }
 
   componentDidMount(){//从后台获得数据   $.get(`${cfg.url}/getPreview`)
+  debugger;
+  let winH = document.documentElement.offsetHeight;
+  let restH = 155;//头部信息和底部版权的高度和
+  console.log(this.state.layoutH)
   //假数据：    'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/getdatabase';
   //测试数据：  getDomain() + '/dm/jdbc/allTables';
   let that = this;
-  let _getallTableUrl =  getDomain() + '/dm/jdbc/allTables';
+  let _getallTableUrl =   'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/getdatabase';
      $.get(_getallTableUrl)
         .done(ret=>{
         	if(typeof(ret) == 'string'){
@@ -63,10 +68,15 @@ constructor(props) {
         	 };
         
              that.setState({
-                    database: ret.data.database
+                    database: ret.data.database,
+                    layoutH: winH - 155
              });
         });
-  }
+  };
+
+
+
+
 
  render(){
  	let SubMenuCon = null;//路由链接
@@ -107,15 +117,15 @@ constructor(props) {
       defaultTip = null
   }
  
-
  return (
-  <Layout>
-    <Content style={{ padding: '0 50px' }}>
+  <Layout style={{ minHeight: '100vh' }}>
+  
+    <Content style={{ padding: '0 50px'}}>
       <Breadcrumb style={{ margin: '16px 0' }}>
         <Breadcrumb.Item>数据报表展示</Breadcrumb.Item>
       </Breadcrumb>
       <Router>
-      <Layout style={{ padding: '24px 0', background: '#fff' }}>
+      <Layout style={{ padding: '24px 0', background: '#fff',height:`${this.state.layoutH}px`}}>
         <Sider width={200} style={{ background: '#fff' }}>
           <Menu
             mode="inline"
