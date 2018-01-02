@@ -135,7 +135,7 @@ class Tablelist extends React.Component {
             if(typeof(res) == 'string'){
                 res = JSON.parse(res);
             };
-            if(!res.data.tableList.data){//没有数据清空列表
+            if(!res.data.tableList){//没有数据清空列表
                  that.setState({
                    data:[],
                    columns:[]
@@ -199,7 +199,7 @@ class Tablelist extends React.Component {
   handleQuery(){//数据查询
        //假数据：   'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/onlyTable';
        //测试数据：  getDomain() + '/dm/jdbc/onlyTable';
-      let _url=  'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/onlyTable';
+      let _url=   getDomain() + '/dm/jdbc/onlyTable';
       this.handleGetData(_url);
   }
   render() {
@@ -255,9 +255,11 @@ class Tablelist extends React.Component {
 
             {dataSeachCom}
             <Button type="primary" icon="search" size={'default'} onClick={this.handleQuery}>查询</Button>
-            <Button type="primary" icon="download" size={'default'} onClick={this.handleExportData}>
-               <a style={{'color':'#fff','marginLeft':'5px'}} href= {this.state.exportLinkUrl} >导出</a>
-            </Button>
+            <a style={{'color':'#fff','marginLeft':'5px','display':'inline-block'}} href= {this.state.exportLinkUrl} >
+              <Button type="primary" icon="download" size={'default'} onClick={this.handleExportData}>
+                 导出
+              </Button>
+            </a>
 
         </div>
         <Table 
