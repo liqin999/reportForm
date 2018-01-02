@@ -4,9 +4,15 @@ module.exports = {
     var currentdate='';
     var date = new Date();
     var seperator1 = "/";
-
+    var month = null;
     var year = date.getFullYear();
-    var month = obj.m ? date.getMonth() - (obj.m-1) : date.getMonth() + 1;
+    if(date.getMonth() == 0 && format == 'YM'){//如果是一年的第一个月，显示上年的12月
+        year = year-1;
+        month = obj.m ?  (12 - date.getMonth() - (obj.m-1))  : date.getMonth() + 1;
+    }else{
+        month = obj.m ? date.getMonth() - (obj.m-1) : date.getMonth() + 1;
+    }
+   
     var strDate = obj.d ? date.getDate() - obj.d : date.getDate();
 
     if (month >= 1 && month <= 9) {
