@@ -200,7 +200,7 @@ class Tablelist extends React.Component {
   handleQuery(){//数据查询
        //假数据：   'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/onlyTable';
        //测试数据：  getDomain() + '/dm/jdbc/onlyTable';
-      let _url=   'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/onlyTable';
+      let _url=  getDomain() + '/dm/jdbc/onlyTable';
       this.handleGetData(_url);
   }
   render() {
@@ -226,6 +226,7 @@ class Tablelist extends React.Component {
              日报:
              </span>
              <DatePicker 
+               allowClear = {false}
                onChange={onChangeDate}
                defaultValue={moment(yearmonthday, dateFormat)} 
                format={dateFormat} 
@@ -241,6 +242,7 @@ class Tablelist extends React.Component {
                月报：
             </span>
             <MonthPicker 
+            allowClear = {false}
             onChange={onChangeDate} 
             placeholder="Select month" 
             defaultValue={moment(yearmonth, monthFormat)} 
