@@ -53,14 +53,14 @@ constructor(props) {
  }
 
   componentDidMount(){//从后台获得数据   $.get(`${cfg.url}/getPreview`)
-  debugger;
+  
   let winH = document.documentElement.offsetHeight;
   let restH = 155;//头部信息和底部版权的高度和
   console.log(this.state.layoutH)
   //假数据：    'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/getdatabase';
   //测试数据：  getDomain() + '/dm/jdbc/allTables';
   let that = this;
-  let _getallTableUrl =   getDomain() + '/dm/jdbc/allTables';
+  let _getallTableUrl =   'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/getdatabase';
      $.get(_getallTableUrl)
         .done(ret=>{
         	if(typeof(ret) == 'string'){
