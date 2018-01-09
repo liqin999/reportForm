@@ -10,27 +10,8 @@ import {
   HashRouter
 } from 'react-router-dom';
 
-import cfg from 'common/config/config.json';
+import {getDomain,mockData} from 'common/config/interface.js';
 import RouteIndex from 'components/Routecom/RouteIndex.js';
-var environment = {
-    devHttp:"http://ca-web.yun300.cn",
-    testHttp:'http://data.yun300.cn',
-    conHttp:'http://webapp.data.yun300.cn',
-    default:"http://ca-web.yun300.cn"
-};
-//判断接口环境
-function getDomain(){
-    switch (window.location.host) {
-        case 'ca-web.yun300.cn':
-            return environment.devHttp;
-        case 'data.yun300.cn':
-            return environment.testHttp;
-        case 'webapp.data.yun300.cn':
-            return environment.conHttp;
-        default:
-            return environment.default;
-    }
-}
 
 export default class Iframe extends React.Component{
 
@@ -57,10 +38,10 @@ constructor(props) {
   let winH = document.documentElement.offsetHeight;
   let restH = 155;//头部信息和底部版权的高度和
   console.log(this.state.layoutH)
-  //假数据：    'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/getdatabase';
+  //假数据：    mockData.allTables;
   //测试数据：  getDomain() + '/dm/jdbc/allTables';
   let that = this;
-  let _getallTableUrl =   'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/getdatabase';
+  let _getallTableUrl = mockData.allTables;
      $.get(_getallTableUrl)
         .done(ret=>{
         	if(typeof(ret) == 'string'){
