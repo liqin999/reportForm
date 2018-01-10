@@ -20,4 +20,5 @@
 运行-node server:   "scripts"：{"dev": "NODE_ENV=dev webpack"} 
 打包-npm run dev    "scripts"：{"dev": "webpack"} 
 
-
+## 关于使用react-route browerHistory,nginx的配置问题
+.net后端 iis rewrite到 ／ 基本都这个原理无论nginx node 或者是apache
