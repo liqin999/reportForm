@@ -12,24 +12,13 @@ import Iframe from 'components/layout/Iframe';
 class App extends React.Component{
 constructor(props) {
     super(props);
-    this.state={//数据的形式 id  value  hascompleted
-    
-    }
-   
- }
-
-	changeInputVal(ev){
-		
-	}
-
-	render(){//render是元素的渲染的到页面中的行为
-
-		return(
-          
-           		<Iframe />
-           
+    this.state={}
+  }
+render(){//render是元素的渲染的到页面中的行为
+	return(
+		<Iframe />
 		)
-	}
+    }
 }
 
 ReactDOM.render(
