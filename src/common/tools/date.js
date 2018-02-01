@@ -3,9 +3,13 @@ module.exports = {
   getNowDate: function(format,obj){//获得当前的日期的前N天和前N个月
     var currentdate='';
     var date = new Date();
+    if(obj.d){//处理前一天
+       date = new Date(date.getTime() - 24*60*60*1000*(obj.d));
+     }
     var seperator1 = "/";
     var month = null;
     var year = date.getFullYear();
+    var strDate =date.getDate();
     if(date.getMonth() == 0 && format == 'YM'){//如果是一年的第一个月，显示上年的12月
         year = year-1;
         month = obj.m ?  (12 - date.getMonth() - (obj.m-1))  : date.getMonth() + 1;
@@ -13,8 +17,6 @@ module.exports = {
         month = obj.m ? date.getMonth() - (obj.m-1) : date.getMonth() + 1;
     }
    
-    var strDate = obj.d ? date.getDate() - obj.d : date.getDate();
-
     if (month >= 1 && month <= 9) {
         month = "0" + month;
      }

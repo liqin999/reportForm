@@ -181,7 +181,7 @@ class Tablelist extends React.Component {
   handleQuery(){//数据查询
        //假数据：    mockData.onlyTable;
        //测试数据：  getDomain() + '/dm/jdbc/onlyTable';
-      let _url= mockData.onlyTable;
+      let _url= getDomain() + '/dm/jdbc/onlyTable';
       this.handleGetData(_url);
   }
   render() {
@@ -190,6 +190,7 @@ class Tablelist extends React.Component {
   //取到id  然后发送请求
   let databaseId = location.state.databaseId;
   let tableId = location.state.tableId;
+
   let yearmonthday = dateformat.getNowDate('YMD',{d:1});
   let yearmonth = dateformat.getNowDate('YM',{m:1});
 

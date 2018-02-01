@@ -41,7 +41,7 @@ constructor(props) {
   //假数据：    mockData.allTables;
   //测试数据：  getDomain() + '/dm/jdbc/allTables';
   let that = this;
-  let _getallTableUrl = mockData.allTables;
+  let _getallTableUrl = getDomain() + '/dm/jdbc/allTables';
      $.get(_getallTableUrl)
         .done(ret=>{
         	if(typeof(ret) == 'string'){
