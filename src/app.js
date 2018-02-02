@@ -5,7 +5,8 @@ require("./common/style/index.css");
 import {
   BrowserRouter as Router,
   Route,
-  Link
+  Link,
+  HashRouter 
 } from 'react-router-dom';
 
 import Iframe from 'components/layout/Iframe';
@@ -22,11 +23,11 @@ render(){//render是元素的渲染的到页面中的行为
 }
 
 ReactDOM.render(
-  <Router>
+  <HashRouter >
 	  <div style={{height:"100%"}}>
-	     <Route path="/" component={App}></Route>
+	     <Route path="/" component={Iframe}></Route>
 	  </div>
-  </Router>,
+  </HashRouter >,
 	  document.getElementById('root')
 	);
 
