@@ -42,17 +42,25 @@ constructor(props) {
   //测试数据：  getDomain() + '/dm/jdbc/allTables';
   let that = this;
   let _getallTableUrl =  getDomain() + '/dm/jdbc/allTables';
-     $.get(_getallTableUrl)
+  $.get(_getallTableUrl)
         .done(ret=>{
         	if(typeof(ret) == 'string'){
                 ret = JSON.parse(ret);	
         	 };
-        
-             that.setState({
-                    database: ret.data.database,
-                    layoutH: winH - 155
-             });
-        });
+           that.setState({
+                  database: ret.data.database,
+                  layoutH: winH - 155
+           });
+           sessionStorage.setItem('dStatus', 'ok');
+   });
+
+   if (!sessionStorage.getItem("dStatus")) {
+       let isLoginUrl= getDomain() + '/dm/jdbc/login';
+       window.location.assign(isLoginUrl);
+    }
+
+
+
   };
 
 
