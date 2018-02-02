@@ -22,3 +22,7 @@
 
 ## 关于使用react-route browerHistory,nginx的配置问题
 .net后端 iis rewrite到 ／ 基本都这个原理无论nginx node 或者是apache
+
+
+###前端设置 使用HashRouter   解决打包到正式环境 跳转页面404的问题
+
