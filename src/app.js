@@ -1,7 +1,6 @@
 //引入样式文件
 import 'antd/dist/antd.css'
 require("./common/style/index.css");
-
 import {
   BrowserRouter as Router,
   Route,
@@ -23,11 +22,11 @@ render(){//render是元素的渲染的到页面中的行为
 }
 
 ReactDOM.render(
-  <HashRouter >
+  <HashRouter>
 	  <div style={{height:"100%"}}>
 	     <Route path="/" component={Iframe}></Route>
 	  </div>
-  </HashRouter >,
+  </HashRouter>,
 	  document.getElementById('root')
 	);
 

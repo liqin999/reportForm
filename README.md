@@ -26,3 +26,5 @@
 
 ###前端设置 使用HashRouter   解决打包到正式环境 跳转页面404的问题
 
+不能使用hashRouter的时候  没有使用create-react-app的使用
+

@@ -28,7 +28,9 @@ export default class RouteIndex extends React.Component{
      	var routeHtml = [];
      	 	//创建路由链接对应的组件页面
      	 	if(database.length == 0){
-     	 		//alert(0)
+     	 		 routeHtml.push(
+               <Redirect to="/reportform/index.html#/"/>
+              )
      	 	}else{
                	for(var i=0;i<database.length;i++){
                		var cur = database[i].options;
@@ -36,7 +38,7 @@ export default class RouteIndex extends React.Component{
                			var nowCur = cur[j];
                			var tabname = nowCur.tabname;
                			routeHtml.push(<Route exact 
-                      path={`/${tabname}`}
+                      path={`/reportform/index.html#/${tabname}`}
                       key={nowCur.id}
                       render={
                         (props)=>(

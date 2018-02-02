@@ -41,7 +41,7 @@ constructor(props) {
   //假数据：    mockData.allTables;
   //测试数据：  getDomain() + '/dm/jdbc/allTables';
   let that = this;
-  let _getallTableUrl =  mockData.allTables;
+  let _getallTableUrl =  getDomain() + '/dm/jdbc/allTables';
      $.get(_getallTableUrl)
         .done(ret=>{
         	if(typeof(ret) == 'string'){
@@ -70,7 +70,7 @@ constructor(props) {
 				/*<Menu.Item key={_item.id}>{_item.tabname}</Menu.Item>*/
         <Menu.Item key={_item.id}>
             {<Link to={{ 
-            	pathname:`/${_item.tabname}`,
+              pathname:`/reportform/index.html#/${_item.tabname}`,
             	state: {
             	 	databaseId: item.id,
             	 	tableId:_item.id,
