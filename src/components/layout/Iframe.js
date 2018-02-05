@@ -42,11 +42,11 @@ constructor(props) {
   //测试数据：  getDomain() + '/dm/jdbc/allTables';
   let that = this;
   let _getallTableUrl =  getDomain() + '/dm/jdbc/allTables';
-  if(!sessionStorage.getItem("dStatus")) {
+/*  if(!sessionStorage.getItem("dStatus")) {
        let isLoginUrl= getDomain() + '/dm/jdbc/login';
        window.location.assign(isLoginUrl);
        return;
-  }
+  }*/
 
  $.get(_getallTableUrl)
         .done(ret=>{
