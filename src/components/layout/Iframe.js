@@ -34,7 +34,7 @@ constructor(props) {
  }
 
   componentDidMount(){//从后台获得数据   $.get(`${cfg.url}/getPreview`)
-  
+ 
   let winH = document.documentElement.offsetHeight;
   let restH = 155;//头部信息和底部版权的高度和
   console.log(this.state.layoutH)
@@ -42,30 +42,24 @@ constructor(props) {
   //测试数据：  getDomain() + '/dm/jdbc/allTables';
   let that = this;
   let _getallTableUrl =  getDomain() + '/dm/jdbc/allTables';
-  $.get(_getallTableUrl)
+  if(!sessionStorage.getItem("dStatus")) {
+       let isLoginUrl= getDomain() + '/dm/jdbc/login';
+       window.location.assign(isLoginUrl);
+       return;
+  }
+
+ $.get(_getallTableUrl)
         .done(ret=>{
-        	if(typeof(ret) == 'string'){
-                ret = JSON.parse(ret);	
-        	 };
+          if(typeof(ret) == 'string'){
+                ret = JSON.parse(ret);  
+           };
            that.setState({
                   database: ret.data.database,
                   layoutH: winH - 155
            });
-           sessionStorage.setItem('dStatus', 'ok');
-   });
-
-   if (!sessionStorage.getItem("dStatus")) {
-       let isLoginUrl= getDomain() + '/dm/jdbc/login';
-       window.location.assign(isLoginUrl);
-    }
-
-
-
+        });
+    
   };
-
-
-
-
 
  render(){
  	let SubMenuCon = null;//路由链接
