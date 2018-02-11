@@ -100,6 +100,9 @@ class Tablelist extends React.Component {
        };
        if(time != '' && time !=null){
          postData.select["field_name"]=field_name;
+         if(time.length < 8 ){//2018/01 -2018/01/05
+               time = time + "/01";
+         }
          postData.select["field_value"]=time;
        }
        postData.select["databaseId"]=databaseId;
@@ -181,7 +184,7 @@ class Tablelist extends React.Component {
   handleQuery(){//数据查询
        //假数据：    mockData.onlyTable;
        //测试数据：  getDomain() + '/dm/jdbc/onlyTable';
-      let _url= getDomain() + '/dm/jdbc/onlyTable';
+      let _url=   getDomain() + '/dm/jdbc/onlyTable';
       this.handleGetData(_url);
   }
   render() {
@@ -253,6 +256,7 @@ class Tablelist extends React.Component {
           pagination={{ pageSize: 10}} 
           scroll={{ y: 0 }} 
           onChange={this.handleChange}
+          scroll={{ x: 5800, y: 550 }}
         />
       </div>
     );

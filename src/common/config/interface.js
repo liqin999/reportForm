@@ -20,7 +20,7 @@ function getDomain(){
 
 let mockData = {//模拟的假数据
       allTables : 'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/getdatabase',
-      onlyTable : 'https://easy-mock.com/mock/599d1648059b9c566dcc4206/house/onlyTable'
+      onlyTable : 'https://easy-mock.com/mock/595f657b9adc231f357b8c04/table/onlyTable'
 };
 
 export {
