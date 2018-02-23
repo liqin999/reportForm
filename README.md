@@ -7,11 +7,6 @@
 3. 在浏览器通过 : localhost:9006 访问此项目
 4. npm run dev 项目打包上线
 
-## 以下是和视频对比被改动的文件
-
-关于 server.js
-    我注释了原来的第7行代码 : `const bs = require('browser-sync').create();`, 这行代码在实例中并无用处
-
 关于 package.json
     * 在 devDependencies 里删除了对 browser-sync 的依赖: "browser-sync": "^2.18.8",
     我们并不用到此依赖
